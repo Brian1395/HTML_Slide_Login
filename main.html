@@ -6,15 +6,20 @@
 		<link rel="stylesheet" type="text/css" href="main.css" />
 	</head>
 	<script>
-		var startx = 0;
-		var starty = 0;
+		var startx = -1;
+		var starty = -1;
 		var Xcoords = [50,150,250]
 		var Ycoords = [50,135,220]
-		
+
+		var order = []
+		var key = [0,1]
+
 		function drawLine(x,y){
-			endx = Xcoords[x - 1];
-			endy = Ycoords[y - 1];
-			if(startx != 0 && !(startx == endx && starty == endy)){
+			var loc = (y*3) + x;
+			order.push(loc);
+			endx = Xcoords[x];
+			endy = Ycoords[y];
+			if(startx > 0 && !(startx == endx && starty == endy)){
 				var canvas = document.getElementById("myCanvas");
 				var ctx = canvas.getContext("2d");
 				ctx.lineWidth = 15;
@@ -24,32 +29,43 @@
 			}
 		}
 		function setLine(x,y){
-			startx = Xcoords[x - 1];
-			starty = Ycoords[y - 1];
+			
+			startx = Xcoords[x];
+			starty = Ycoords[y];
+		}
+
+		function check(){
+			/*document.getElementById("log").innerHTML = order; */
+			if(JSON.stringify(order)==JSON.stringify(key)){
+				document.body.style.backgroundColor = "green"; 
+			}
+			else{
+				document.body.style.backgroundColor = "red"; 
+			}
 		}
 
 	</script>
 	<body>
 
-		<div class="center">
-			<h1>LOGIN</h1>
+		<div class="center" onmouseleave="check();">
+			<h1 id = "log">LOGIN</h1>
 			<!--<div style="width: 400px; height: 10px; background: #B6D399;"> </div>-->
 			<canvas id="myCanvas" width="300" height="300" style=" position: absolute; transform: translate(-150px,0); z-index: -1;"></canvas>
 			<table class="dot_matrix">
 				<tr>
+					<th><button onmouseover="drawLine(0,0);" onmouseleave="setLine(0,0);">•</button></th>
+					<th><button onmouseover="drawLine(1,0);" onmouseleave="setLine(1,0);">•</button></th>
+					<th><button onmouseover="drawLine(2,0);" onmouseleave="setLine(2,0);">•</button></th>
+				</tr>
+				<tr>
+					<th><button onmouseover="drawLine(0,1);" onmouseleave="setLine(0,1);">•</button></th>
 					<th><button onmouseover="drawLine(1,1);" onmouseleave="setLine(1,1);">•</button></th>
 					<th><button onmouseover="drawLine(2,1);" onmouseleave="setLine(2,1);">•</button></th>
-					<th><button onmouseover="drawLine(3,1);" onmouseleave="setLine(3,1);">•</button></th>
 				</tr>
 				<tr>
+					<th><button onmouseover="drawLine(0,2);" onmouseleave="setLine(0,2);">•</button></th>
 					<th><button onmouseover="drawLine(1,2);" onmouseleave="setLine(1,2);">•</button></th>
 					<th><button onmouseover="drawLine(2,2);" onmouseleave="setLine(2,2);">•</button></th>
-					<th><button onmouseover="drawLine(3,2);" onmouseleave="setLine(3,2);">•</button></th>
-				</tr>
-				<tr>
-					<th><button onmouseover="drawLine(1,3);" onmouseleave="setLine(1,3);">•</button></th>
-					<th><button onmouseover="drawLine(2,3);" onmouseleave="setLine(2,3);">•</button></th>
-					<th><button onmouseover="drawLine(3,3);" onmouseleave="setLine(3,3);">•</button></th>
 				</tr>
 			</table>
 		</div>
